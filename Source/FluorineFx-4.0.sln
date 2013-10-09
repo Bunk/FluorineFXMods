@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluorineFx-4.0", "FluorineFx\FluorineFx-4.0.csproj", "{A9B8375B-579D-4F8A-B00C-F2828DB58F3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluorineFx.ServiceBrowser-4.0", "FluorineFx.ServiceBrowser\FluorineFx.ServiceBrowser-4.0.csproj", "{3EE02BF6-86F1-462A-A004-68EE85821360}"
@@ -8,6 +8,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluorineFx.Hosting-4.0", "FluorineFx.Hosting\FluorineFx.Hosting-4.0.csproj", "{BBF4132B-9C14-4AB9-AC0F-6D2432A5D5BB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluorineFx.WCF-4.0", "FluorineFx.WCF\FluorineFx.WCF-4.0.csproj", "{4F5720FD-621A-4A43-A579-409C64E852C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D2174F46-603C-4CCF-B962-32416E3A5F15}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

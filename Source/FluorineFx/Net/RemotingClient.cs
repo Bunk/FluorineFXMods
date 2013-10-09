@@ -28,8 +28,6 @@ using FluorineFx.Messaging.Api.Service;
 using FluorineFx.Messaging.Rtmp.Event;
 using FluorineFx.Messaging.Rtmp.Service;
 
-using Starksoft.Net.Proxy;
-
 namespace FluorineFx.Net
 {
     /// <summary>

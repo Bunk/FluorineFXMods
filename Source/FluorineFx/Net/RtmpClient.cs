@@ -37,8 +37,6 @@ using FluorineFx.Messaging.Messages;
 using FluorineFx.Invocation;
 using FluorineFx.Exceptions;
 
-using Starksoft.Net.Proxy;
-
 namespace FluorineFx.Net
 {
     /// <summary>
@@ -401,21 +399,21 @@ namespace FluorineFx.Net
 
 			// Support for proxies in non-Silverlight apps.
 #if !SILVERLIGHT
-			if (Proxy != null)
-			{
-				ProxyClientFactory factory = new ProxyClientFactory();
-				string[] proxyParts = _proxy.Server.Split(':');
-				IProxyClient proxyClient = factory.CreateProxyClient(_proxy.TypeToInternalType(), proxyParts[0], int.Parse(proxyParts[1]));
-
-				Uri endpoint = new Uri(command);
-				TcpClient tcpClient = proxyClient.CreateConnection(endpoint.Host, endpoint.Port);
-				socket = tcpClient.Client;
-			}
-			else
-			{
+            // todo: Add proxy support without a dependency
+//			if (Proxy != null)
+//			{
+//				IProxyClientFactory factory = new ProxyClientFactory();
+//			    var proxyClient = factory.CreateProxyClient(_proxy.Type, new Uri(_proxy.Server));
+//
+//				var endpoint = new Uri(command);
+//			    var tcpClient = proxyClient.CreateConnection(endpoint);
+//				socket = tcpClient.Client;
+//			}
+//			else
+//			{
 				socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 				socket.Connect(uri.Host, port);
-			}
+//			}
 #else
 			socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 #endif
