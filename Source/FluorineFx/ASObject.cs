@@ -187,7 +187,7 @@ namespace FluorineFx
                         catch (Exception ex)
                         {
                             string msg = __Res.GetString(__Res.Reflection_PropertySetFail, string.Format("{0}.{1}", destinationType.FullName, memberName), ex.Message);
-                            throw new FluorineException(msg);
+                            throw new FluorineException(msg, ex);
                         }
                     }
                     else
@@ -208,7 +208,7 @@ namespace FluorineFx
                         catch (Exception ex)
                         {
                             string msg = __Res.GetString(__Res.Reflection_FieldSetFail, string.Format("{0}.{1}", destinationType.FullName, memberName), ex.Message);
-                            throw new FluorineException(msg);
+                            throw new FluorineException(msg, ex);
                         }
                     }
                 }
