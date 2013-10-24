@@ -1114,9 +1114,9 @@ namespace FluorineFx.IO
                         log.Error(msg, ex);
 #endif
                     if (!_faultTolerancy)
-                        throw new FluorineException(msg);
+                        throw new FluorineException(msg, ex);
                     else
-                        _lastError = new FluorineException(msg);
+                        _lastError = new FluorineException(msg, ex);
                 }
             }
             else
@@ -1146,9 +1146,9 @@ namespace FluorineFx.IO
                         log.Error(msg, ex);
 #endif
                     if (!_faultTolerancy)
-                        throw new FluorineException(msg);
+                        throw new FluorineException(msg, ex);
                     else
-                        _lastError = new FluorineException(msg);
+                        _lastError = new FluorineException(msg, ex);
                 }
             }
         }

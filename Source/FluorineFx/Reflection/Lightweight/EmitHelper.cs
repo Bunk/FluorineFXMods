@@ -3235,7 +3235,7 @@ namespace FluorineFx.Reflection.Lightweight
 		{
 			if (parameterInfo == null) throw new ArgumentNullException("parameterInfo");
 
-			Type type = TypeHelper.GetUnderlyingType(parameterInfo.ParameterType);
+		    Type type = TypeHelper.GetUnderlyingType(parameterInfo.ParameterType, true);
 
 			if (parameterInfo.ParameterType.IsByRef)
 			{

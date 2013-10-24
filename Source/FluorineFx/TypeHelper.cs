@@ -570,24 +570,25 @@ namespace FluorineFx
 #endif
         }
 
-        /// <summary>
-        /// Returns the underlying type argument of the specified type.
-        /// </summary>
-        /// <param name="type">A <see cref="System.Type"/> instance. </param>
-        /// <returns><list>
-        /// <item>The type argument of the type parameter,
-        /// if the type parameter is a closed generic nullable type.</item>
-        /// <item>The underlying Type of enumType, if the type parameter is an enum type.</item>
-        /// <item>Otherwise, the type itself.</item>
-        /// </list>
-        /// </returns>
-        public static Type GetUnderlyingType(Type type)
+	    /// <summary>
+	    /// Returns the underlying type argument of the specified type.
+	    /// </summary>
+	    /// <param name="type">A <see cref="System.Type"/> instance. </param>
+	    /// <param name="autoRetrieveEnumUnderlyingType">Whether or not to return the underlying enum type for enums, even if nullable</param>
+	    /// <returns><list>
+	    /// <item>The type argument of the type parameter,
+	    /// if the type parameter is a closed generic nullable type.</item>
+	    /// <item>The underlying Type of enumType, if the type parameter is an enum type.</item>
+	    /// <item>Otherwise, the type itself.</item>
+	    /// </list>
+	    /// </returns>
+	    public static Type GetUnderlyingType(Type type, bool autoRetrieveEnumUnderlyingType)
         {
             if (type == null) throw new ArgumentNullException("type");
 
             if (ReflectionUtils.IsNullable(type))
 				type = type.GetGenericArguments()[0];
-            if (type.IsEnum)
+            if (autoRetrieveEnumUnderlyingType && type.IsEnum)
                 type = Enum.GetUnderlyingType(type);
             return type;
         }
@@ -816,7 +817,7 @@ namespace FluorineFx
             {
                 if (isNullable)
                 {
-                    switch (Type.GetTypeCode(GetUnderlyingType(targetType)))
+                    switch (Type.GetTypeCode(GetUnderlyingType(targetType, true)))
                     {
                         case TypeCode.Char: return CanConvertToNullableChar(obj);
                     }
@@ -934,19 +935,14 @@ namespace FluorineFx
             }
             else if (targetType.IsEnum)
             {
-                try
-                {
-                    return Enum.Parse(targetType, value.ToString(), true);
-                }
-                catch (ArgumentException ex)
-                {
-                    throw new InvalidCastException(__Res.GetString(__Res.TypeHelper_ConversionFail), ex);
-                }
+                return Util.Convert.ToNullableEnum(targetType, value);
             }
 
             if (isNullable)
             {
-                switch (Type.GetTypeCode(GetUnderlyingType(targetType)))
+                var underlyingType = GetUnderlyingType(targetType, false);
+                if (underlyingType.IsEnum) return ConvertToNullableEnum(underlyingType, value);
+                switch (Type.GetTypeCode(underlyingType))
                 {
                     case TypeCode.Boolean:  return ConvertToNullableBoolean (value);
                     case TypeCode.Byte:     return ConvertToNullableByte    (value);
@@ -963,7 +959,7 @@ namespace FluorineFx
                     case TypeCode.UInt32:   return ConvertToNullableUInt32  (value);
                     case TypeCode.UInt64:   return ConvertToNullableUInt64  (value);
                 }
-                if (typeof(Guid) == GetUnderlyingType(targetType)) return ConvertToNullableGuid(value);
+                if (typeof(Guid) == underlyingType) return ConvertToNullableGuid(value);
             }
 
             switch (Type.GetTypeCode(targetType))
@@ -1331,6 +1327,21 @@ namespace FluorineFx
             if (value == null) return true;
             return Util.Convert.CanConvertToNullableGuid(value);
         }
+
+	    /// <summary>
+	    /// Converts the value of the specified Object to its equivalent nullable enum type.
+	    /// </summary>
+	    /// <param name="enumType">The underlying enum type</param>
+	    /// <param name="value">An Object.</param>
+	    /// <returns>The equivalent nullable enum.</returns>
+	    public static object ConvertToNullableEnum(Type enumType, object value)
+        {
+            if (value == null) return null;
+            if (value.GetType() == enumType) return value;
+
+	        return Util.Convert.ToNullableEnum(enumType, value);
+        }
+
         #endregion
 
         #region Primitive Types

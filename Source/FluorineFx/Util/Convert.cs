@@ -8413,6 +8413,109 @@ namespace FluorineFx.Util
 
         #endregion
 
+        #region Enum?
+
+        // Scalar Types.
+
+        /// <summary>
+        /// Converts the value of the specified String to its equivalent nullable Guid.
+        /// </summary>
+        /// <param name="enumType">The underlying enum type</param>
+        /// <param name="value">A String.</param>
+        /// <returns>The equivalent nullable Guid.</returns>
+        public static object ToNullableEnum(Type enumType, String value)
+        {
+            if (value == null) return null;
+
+            try
+            {
+                return Enum.Parse(enumType, value);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidCastException(__Res.GetString(__Res.TypeHelper_ConversionFail), ex);
+            }
+        }
+
+        public static object ToNullableEnum(Type enumType, Int16 value) { return Enum.ToObject(enumType, value); }
+
+        public static object ToNullableEnum(Type enumType, Int32 value) { return Enum.ToObject(enumType, value); }
+
+        public static object ToNullableEnum(Type enumType, Int64 value) { return Enum.ToObject(enumType, value); }
+
+        public static object ToNullableEnum(Type enumType, Byte value) { return Enum.ToObject(enumType, value); }
+
+        [CLSCompliant(false)]
+        public static object ToNullableEnum(Type enumType, SByte value) { return Enum.ToObject(enumType, value); }
+
+        [CLSCompliant(false)]
+        public static object ToNullableEnum(Type enumType, UInt16 value) { return Enum.ToObject(enumType, value); }
+
+        [CLSCompliant(false)]
+        public static object ToNullableEnum(Type enumType, UInt32 value) { return Enum.ToObject(enumType, value); }
+
+        [CLSCompliant(false)]
+        public static object ToNullableEnum(Type enumType, UInt64 value) { return Enum.ToObject(enumType, value); }
+
+        // SqlTypes.
+#if! SILVERLIGHT
+        /// <summary>
+        /// Converts the value of the specified SqlInt32 to its equivalent nullable 32-bit signed integer.
+        /// </summary>
+        /// <param name="enumType">The underlying enum</param>
+        /// <param name="value">An SqlInt32.</param>
+        /// <returns>The equivalent nullable 32-bit signed integer value.</returns>
+        public static object ToNullableEnum(Type enumType, SqlInt32 value) { return value.IsNull ? null : ToNullableEnum(enumType, value.Value); }
+        /// <summary>
+        /// Converts the value of the specified SqlString to its equivalent nullable 32-bit signed integer.
+        /// </summary>
+        /// <param name="enumType">The underlying enum</param>
+        /// <param name="value">An SqlString.</param>
+        /// <returns>The equivalent nullable 32-bit signed integer value.</returns>
+        public static object ToNullableEnum(Type enumType, SqlString value) { return value.IsNull ? null : ToNullableEnum(enumType, value.Value); }
+        /// <summary>
+        /// Converts the value of the specified SqlByte to its equivalent nullable 32-bit signed integer.
+        /// </summary>
+        /// <param name="enumType">The underlying enum</param>
+        /// <param name="value">An SqlByte.</param>
+        /// <returns>The equivalent nullable 32-bit signed integer value.</returns>
+        public static object ToNullableEnum(Type enumType, SqlByte value) { return value.IsNull ? null : ToNullableEnum(enumType, value.Value); }
+        /// <summary>
+        /// Converts the value of the specified SqlInt16 to its equivalent nullable 32-bit signed integer.
+        /// </summary>
+        /// <param name="enumType">The underlying enum</param>
+        /// <param name="value">An SqlInt16.</param>
+        /// <returns>The equivalent nullable 32-bit signed integer value.</returns>
+        public static object ToNullableEnum(Type enumType, SqlInt16 value) { return value.IsNull ? null : ToNullableEnum(enumType, value.Value); }
+        /// <summary>
+        /// Converts the value of the specified SqlInt64 to its equivalent nullable 32-bit signed integer.
+        /// </summary>
+        /// <param name="enumType">The underlying enum</param>
+        /// <param name="value">An SqlInt64.</param>
+        /// <returns>The equivalent nullable 32-bit signed integer value.</returns>
+        public static object ToNullableEnum(Type enumType, SqlInt64 value) { return value.IsNull ? null : ToNullableEnum(enumType, value.Value); }
+#endif
+
+        public static object ToNullableEnum(Type enumType, object value)
+        {
+            if (value == null || value is DBNull) return null;
+
+            // Scalar Types.
+            //
+            if (value is String) return ToNullableEnum(enumType, (String)value);
+            if (value is Int16) return ToNullableEnum(enumType, (Int16)value);
+            if (value is Int32) return ToNullableEnum(enumType, (Int32)value);
+            if (value is Int64) return ToNullableEnum(enumType, (Int64)value);
+            if (value is UInt16) return ToNullableEnum(enumType, (UInt16)value);
+            if (value is UInt32) return ToNullableEnum(enumType, (UInt32)value);
+            if (value is UInt64) return ToNullableEnum(enumType, (UInt64)value);
+            if (value is Byte) return ToNullableEnum(enumType, (Byte)value);
+            if (value is SByte) return ToNullableEnum(enumType, (SByte)value);
+
+            throw CreateInvalidCastException(value.GetType(), enumType);
+        }
+        #endregion
+
         #endregion
 #endif
 
